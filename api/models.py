@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin,BaseUserManager
+from django.conf import settings
 
 # Create your models here.
 
@@ -48,4 +49,17 @@ class UserProfile(PermissionsMixin,AbstractBaseUser):
     def __str__(self):
         ''' set a static string'''
         return self.name
-         
+    
+    
+class ProfileFedItem(models.Model):
+    ''' model for feed the user profile'''
+    user_profile = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    status_text = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now_add=True) 
+    
+    def __str__(self):
+        '''return a string ''' 
+        return self.status_text       
